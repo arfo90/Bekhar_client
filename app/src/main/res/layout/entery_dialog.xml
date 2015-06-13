@@ -17,10 +17,17 @@
         android:layout_below="@id/item"
         android:layout_alignParentRight="true" />
     <Button
+        android:id="@+id/add_button"
         android:layout_width="96dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/cat_spiner"
         android:layout_alignParentRight="true"
         android:text="Add" />
+    <TextView
+        android:id="@+id/tv_test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        />
 
 </RelativeLayout>
