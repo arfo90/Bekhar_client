@@ -2,10 +2,15 @@ package com.example.amireza.bekhar_app;
 
 public class TodoItem {
 
-    public TodoItem(String name, String category, Location location) {
+    public TodoItem(String name, String category, Coordinates coordinates, String address) {
         mName = name;
         mCategory = category;
-        mLocation = location;
+        mCoordinates = coordinates;
+        mAddress = address;
+    }
+
+    public TodoItem(String name, String category, Coordinates coordinates) {
+        this(name, category, coordinates, null);
     }
 
     public TodoItem(String name, String category) {
@@ -20,19 +25,26 @@ public class TodoItem {
         return mName;
     }
 
-    public Location getLocation() {
-        return mLocation;
+    public String getAddress() {
+        return mAddress;
     }
 
-    public void setLocation(Location location) {
-        mLocation = location;
+    public Coordinates getCoordinates() { return mCoordinates; }
+
+    public void setCoordinates(Coordinates coordinates) {
+        mCoordinates = coordinates;
+    }
+
+    public void setAddress(String address) {
+        mAddress = address;
     }
 
     public boolean locationKnown() {
-        return mLocation != null;
+        return mCoordinates != null;
     }
 
     private final String mCategory;
     private final String mName;
-    private Location mLocation;
+    private String mAddress;
+    private Coordinates mCoordinates;
 }

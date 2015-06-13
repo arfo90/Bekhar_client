@@ -35,9 +35,9 @@ public class TodoItemView extends RelativeLayout {
         this(context, attrs, 0);
     }
 
-    public void setItem(TodoItem item) {
-        mNameView.setText(item.getName());
-        mCategoryView.setText(item.getCategory());
-        mDistanceView.setText("-- km");
+    public void setItem(String name, String category, String distance) {
+        mNameView.setText(name);
+        mCategoryView.setText(category);
+        mDistanceView.setText(distance);
     }
 }
