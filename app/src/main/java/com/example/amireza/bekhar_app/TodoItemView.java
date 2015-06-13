@@ -11,6 +11,7 @@ public class TodoItemView extends RelativeLayout {
 
     private TextView mNameView;
     private TextView mCategoryView;
+    private TextView mDistanceView;
 
     public static TodoItemView inflate(ViewGroup parent) {
         LayoutInflater inf = LayoutInflater.from(parent.getContext());
@@ -23,6 +24,7 @@ public class TodoItemView extends RelativeLayout {
 
         mNameView = (TextView) findViewById(R.id.item_nameTextView);
         mCategoryView = (TextView) findViewById(R.id.item_categoryTextView);
+        mDistanceView = (TextView) findViewById(R.id.item_distanceTextView);
     }
 
     public TodoItemView(Context c) {
@@ -36,5 +38,6 @@ public class TodoItemView extends RelativeLayout {
     public void setItem(TodoItem item) {
         mNameView.setText(item.getName());
         mCategoryView.setText(item.getCategory());
+        mDistanceView.setText("-- km");
     }
 }

@@ -18,4 +18,14 @@
         android:layout_marginTop="5dp"
         android:text="description text"
         />
+    <TextView
+        android:id="@+id/item_distanceTextView"
+        android:gravity="center_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_alignParentEnd="true"
+        android:textSize="28sp"
+        android:text="distance"
+        />
 </merge>
+
