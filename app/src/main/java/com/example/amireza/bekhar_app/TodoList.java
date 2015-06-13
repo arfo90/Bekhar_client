@@ -1,5 +1,6 @@
 package com.example.amireza.bekhar_app;
 
+import android.renderscript.Sampler;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -36,9 +37,15 @@ public class TodoList extends ActionBarActivity {
         switch (item.getItemId()) {
             case R.id.action_settings:
             case R.id.action_add:
+                EntryDialog cdd=new EntryDialog(TodoList.this);
+                cdd.show();
             default:
         }
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
+
 }
