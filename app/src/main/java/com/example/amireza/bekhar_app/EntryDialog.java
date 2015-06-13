@@ -1,0 +1,40 @@
+package com.example.amireza.bekhar_app;
+
+import android.app.Activity;
+import android.app.Dialog;
+import android.os.Bundle;
+import android.view.View;
+import android.view.Window;
+import android.widget.Button;
+
+/**
+ * Created by Amireza on 6/13/2015.
+ */
+public class EntryDialog extends Dialog implements
+        android.view.View.OnClickListener {
+
+    public Activity c;
+    public Dialog d;
+    public Button yes, no;
+
+    public EntryDialog(Activity a) {
+        super(a);
+        // TODO Auto-generated constructor stub
+        this.c = a;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(R.layout.entery_dialog);
+
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        dismiss();
+    }
+
+}
