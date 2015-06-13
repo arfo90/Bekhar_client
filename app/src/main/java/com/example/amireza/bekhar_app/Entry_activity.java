@@ -1,19 +1,18 @@
 package com.example.amireza.bekhar_app;
 
+import android.app.Activity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-
-public class TodoList extends ActionBarActivity {
+public class Entry_activity extends Activity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_todo_list);
+        setContentView(R.layout.activity_entery);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -34,12 +33,9 @@ public class TodoList extends ActionBarActivity {
             return true;
         }
 
-        switch (item.getItemId()) {
-            case R.id.action_settings:
-            case R.id.action_add:
-            default:
-        }
-
         return super.onOptionsItemSelected(item);
     }
 }
+
+
+
