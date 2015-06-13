@@ -15,9 +15,10 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -75,28 +76,33 @@ public class EntryDialog extends Dialog implements
     public void getCategoryJson(){
 
         RequestQueue queue = Volley.newRequestQueue(this.getContext());
-        queue.start();
 
         String url = "http://bekhar.eu-gb.mybluemix.net/api/category";
 
-        JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+        Response.Listener<JSONArray> listener = new Response.Listener<JSONArray>()
+        {
 
             @Override
-            public void onResponse(JSONObject response) {
+            public void onResponse(JSONArray response) {
                 //Log.d("", response.toString());
                 // TODO Auto-generated method stub
-                textView.setText("Response => " + response.toString());
+                //textView.setText("Response => " + response.toString());
                 //findViewById(R.id.progressBar1).setVisibility(View.GONE);
+
             }
-        }, new Response.ErrorListener() {
+
+        };
+        Response.ErrorListener errorListener = new Response.ErrorListener()
+        {
 
             @Override
             public void onErrorResponse(VolleyError error) {
                 // TODO Auto-generated method stub
 
             }
-        });
 
+        };
+        JsonArrayRequest  jsObjRequest =new JsonArrayRequest(url, listener, errorListener) ;
         queue.add(jsObjRequest);
 
     }
