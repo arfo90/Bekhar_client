@@ -1,12 +1,16 @@
 package com.example.amireza.bekhar_app;
 
+import android.app.ListFragment;
 import android.renderscript.Sampler;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class TodoList extends ActionBarActivity {
+import java.util.List;
+
+public class TodoList extends ActionBarActivity implements NewItemListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +41,7 @@ public class TodoList extends ActionBarActivity {
         switch (item.getItemId()) {
             case R.id.action_settings:
             case R.id.action_add:
-                EntryDialog cdd=new EntryDialog(TodoList.this);
+                EntryDialog cdd=new EntryDialog(this);
                 cdd.show();
             default:
         }
@@ -45,7 +49,9 @@ public class TodoList extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
-
-
+    @Override
+    public void newItem(List<String> item) {
+        TodoListFragment todolist = (TodoListFragment)getFragmentManager().findFragmentById(R.id.fragment);
+        todolist.addItem(new TodoItem(item.get(0), item.get(1), new Coordinates(1.0, 1.0)));
+    }
 }

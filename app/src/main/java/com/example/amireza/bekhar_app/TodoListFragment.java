@@ -27,30 +27,34 @@ import java.util.Arrays;
 import java.util.List;
 
 
+interface NewItemListener {
+    void newItem(List<String> item);
+}
 /**
  * A placeholder fragment containing a simple view.
  */
-public class TodoListFragment extends ListFragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class TodoListFragment extends ListFragment implements
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener,
+        NewItemListener
+
+{
 
     private static final int DONE = 1;
     private GoogleApiClient mMapApi;
-    private Handler mHttpListener = new Handler() {
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case DONE:
-                    mHttpListener = null;
-                    initializeList();
-                    break;
-            }
-        }
-    };
+
     private List<Category> mCategories = null;
     private boolean mConnected = false;
+
+    private ArrayList<TodoItem> items;
+
+    public void addItem(TodoItem item) {
+        items.add(item);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View v = super.onCreateView(inflater, container, savedInstanceState);
         mMapApi = new GoogleApiClient.Builder(v.getContext())
                 .addConnectionCallbacks(this)
@@ -58,52 +62,16 @@ public class TodoListFragment extends ListFragment implements GoogleApiClient.Co
                 .addApi(LocationServices.API)
                 .build();
         mMapApi.connect();
-
-        Thread thread = new Thread(new Runnable() {
-            public void run() {
-                try {
-                    URL url = new URL("http://bekhar.eu-gb.mybluemix.net/api/category");
-                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                    int code = con.getResponseCode();
-                    String response = readStream(con.getInputStream());
-                    JSONArray jsonArr = new JSONArray(response);
-                    List<Category> result = new ArrayList<Category>();
-
-                    for (int i = 0; i < jsonArr.length(); i++) {
-                        JSONObject obj = jsonArr.getJSONObject(i);
-                        result.add(new Category(obj.getString("id"), obj.getString("name")));
-                    }
-                    mCategories = result;
-                } catch (IOException|JSONException ex) {
-                    ex.printStackTrace();
-                } finally {
-                    mHttpListener.sendEmptyMessage(DONE);
-                }
-            }
-
-            private String readStream(InputStream in) throws IOException {
-                StringBuffer buffer = new StringBuffer();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-                String line;
-
-                while ((line = reader.readLine()) != null) {
-                    buffer.append(line);
-                }
-
-                return buffer.toString();
-            }
-        });
-        thread.start();
-
         return v;
     }
 
     private void initializeList() {
-        if (mConnected && mHttpListener == null) {
-            List<TodoItem> items = Arrays.asList(
-                    new TodoItem("orange", "grocery", new Coordinates(3.1333, 101.6833)),
-                    new TodoItem("badminton racket", "sports", new Coordinates(1.3000, 103.8000))
-            );
+        if (mConnected) {
+            items = new ArrayList<TodoItem>()
+            {{
+                add(new TodoItem("orange", "grocery", new Coordinates(3.1333, 101.6833)));
+                add(new TodoItem("badminton racket", "sports", new Coordinates(1.3000, 103.8000)));
+            }};
             setListAdapter(new TodoItemAdapter(getActivity(), items, mMapApi));
         }
     }
@@ -128,8 +96,13 @@ public class TodoListFragment extends ListFragment implements GoogleApiClient.Co
     public void onConnectionFailed(ConnectionResult result) {
         // This callback is important for handling errors that
         // may occur while attempting to connect with Google.
-        //
+        //List<TodoItem>
         // More about this in the 'Handle Connection Failures' section.
         onConnected(null);  // for emulator...
+    }
+
+    @Override
+    public void newItem(List<String> item) {
+        items.add(new TodoItem(item.get(0), item.get(1), new Coordinates(1.0, 1.0)));
     }
 }

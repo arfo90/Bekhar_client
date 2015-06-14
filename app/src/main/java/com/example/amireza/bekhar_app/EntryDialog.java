@@ -19,7 +19,11 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Amireza on 6/13/2015.
@@ -32,7 +36,7 @@ public class EntryDialog extends Dialog implements
     public Button add;
     public EditText itemName;
     public TextView textView;
-    String[] categoryList = new String[]{"test1","test2"};
+    ArrayList<String> categoryList = new ArrayList<String> ();
 
     public EntryDialog(Activity act) {
         super(act);
@@ -66,7 +70,9 @@ public class EntryDialog extends Dialog implements
         switch (v.getId()) {
             case R.id.add_button:
                 //textView.setText(itemName.getText());
-                getCategoryJson();
+                ((TodoList)c).newItem(new ArrayList<String>() {{add(((TextView)findViewById(R.id.item)).getText().toString()); add((String)((Spinner)findViewById(R.id.cat_spiner)).getSelectedItem());}});
+                this.dismiss();
+                break;
             default:
         }
 
@@ -88,6 +94,14 @@ public class EntryDialog extends Dialog implements
                 // TODO Auto-generated method stub
                 //textView.setText("Response => " + response.toString());
                 //findViewById(R.id.progressBar1).setVisibility(View.GONE);
+                for (int index = 0; index < response.length(); ++index) {
+                    try {
+                        JSONObject category = response.getJSONObject(index);
+                        categoryList.add(category.getString("name"));
+                    } catch (JSONException e) {
+                        ;
+                    }
+                }
 
             }
 
@@ -106,5 +120,4 @@ public class EntryDialog extends Dialog implements
         queue.add(jsObjRequest);
 
     }
-
 }
